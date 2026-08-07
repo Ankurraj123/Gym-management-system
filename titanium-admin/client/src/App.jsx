@@ -6,7 +6,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Layout from './components/layout/Layout';
 
 // Auth Pages
-import Login from './pages/Auth/Login';
+import Login from './pages/Login';
 import Register from './pages/Auth/Register';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 
