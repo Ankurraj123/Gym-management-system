@@ -49,6 +49,10 @@ export default function Login() {
     setRole(newRole);
     if (newRole === 'admin') {
       setForm(p => ({ ...p, email: 'admin@titaniumfitness.com', password: 'Admin@123' }));
+    } else if (newRole === 'receptionist') {
+      setForm(p => ({ ...p, email: 'receptionist@titaniumfitness.com', password: 'Recep@123' }));
+    } else if (newRole === 'trainer') {
+      setForm(p => ({ ...p, email: 'trainer@titaniumfitness.com', password: 'Trainer@123' }));
     } else {
       setForm(p => ({ ...p, email: 'member@gmail.com', password: 'member@123' }));
     }
@@ -60,8 +64,13 @@ export default function Login() {
     try {
       const loggedUser = await login(form.email, form.password, role, form.remember);
       toast.success(`Welcome back, ${loggedUser.name || 'User'}! 💪`);
-      if (loggedUser.role === 'admin' || role === 'admin') {
+      const userRole = loggedUser.role || role;
+      if (userRole === 'admin') {
         navigate('/admin/dashboard');
+      } else if (userRole === 'receptionist' || userRole === 'recep') {
+        navigate('/recep/dashboard');
+      } else if (userRole === 'trainer') {
+        navigate('/trainer/dashboard');
       } else {
         navigate('/member/dashboard');
       }
@@ -132,27 +141,41 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Role Switcher Tabs */}
-          <div className="auth-role-tabs-wrapper">
-            <div className="auth-role-tabs">
-              <button
-                type="button"
-                className={`role-tab ${role === 'member' ? 'active' : ''}`}
-                onClick={() => handleRoleSwitch('member')}
-              >
-                <MdPerson size={18} /> Member
-              </button>
+          {/* Role Switcher Tabs (4 Roles) */}
+          <div className="auth-role-tabs-wrapper" style={{ marginBottom: '20px' }}>
+            <div className="auth-role-tabs" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px', background: 'rgba(255,255,255,0.05)', padding: '4px', borderRadius: '12px' }}>
               <button
                 type="button"
                 className={`role-tab ${role === 'admin' ? 'active' : ''}`}
                 onClick={() => handleRoleSwitch('admin')}
+                style={{ padding: '8px 4px', fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
               >
-                <MdShield size={18} /> Admin
+                <MdShield size={14} /> Admin
               </button>
-              <div
-                className="role-tab-indicator"
-                style={{ transform: role === 'admin' ? 'translateX(100%)' : 'translateX(0%)' }}
-              />
+              <button
+                type="button"
+                className={`role-tab ${role === 'receptionist' ? 'active' : ''}`}
+                onClick={() => handleRoleSwitch('receptionist')}
+                style={{ padding: '8px 4px', fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+              >
+                <MdPerson size={14} /> Recep
+              </button>
+              <button
+                type="button"
+                className={`role-tab ${role === 'trainer' ? 'active' : ''}`}
+                onClick={() => handleRoleSwitch('trainer')}
+                style={{ padding: '8px 4px', fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+              >
+                <MdFitnessCenter size={14} /> Trainer
+              </button>
+              <button
+                type="button"
+                className={`role-tab ${role === 'member' ? 'active' : ''}`}
+                onClick={() => handleRoleSwitch('member')}
+                style={{ padding: '8px 4px', fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+              >
+                <MdPerson size={14} /> Member
+              </button>
             </div>
           </div>
 

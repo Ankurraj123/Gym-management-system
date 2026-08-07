@@ -42,6 +42,7 @@ const recepNavItems = [
   { path: '/recep/membership', icon: <MdCardMembership size={20} />, label: 'Renewals' },
   { path: '/recep/payments', icon: <MdPayment size={20} />, label: 'Collect Payment' },
   { path: '/recep/attendance', icon: <MdCalendarToday size={20} />, label: 'Attendance Check-in' },
+  { path: '/recep/appointments', icon: <MdCalendarToday size={20} />, label: 'Appointments' },
   { path: '/recep/profile', icon: <MdPerson size={20} />, label: 'Profile' }
 ];
 
@@ -50,7 +51,8 @@ const trainerNavItems = [
   { path: '/trainer/members', icon: <MdPeople size={20} />, label: 'Assigned Members' },
   { path: '/trainer/workouts', icon: <MdDirectionsRun size={20} />, label: 'Workout Plans' },
   { path: '/trainer/diet', icon: <MdRestaurantMenu size={20} />, label: 'Diet Plans' },
-  { path: '/trainer/attendance', icon: <MdCalendarToday size={20} />, label: 'Session Logs' },
+  { path: '/trainer/appointments', icon: <MdCalendarToday size={20} />, label: 'Appointments' },
+  { path: '/trainer/messages', icon: <MdCampaign size={20} />, label: 'Messages & Reminders' },
   { path: '/trainer/profile', icon: <MdPerson size={20} />, label: 'Profile' }
 ];
 
