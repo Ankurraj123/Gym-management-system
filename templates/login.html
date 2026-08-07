@@ -193,6 +193,7 @@ function selectTitaniumRole(role) {
     const portalSub = document.getElementById('login-portal-subtitle');
     const roleInput = document.getElementById('selected-role-input');
     const usernameInput = document.getElementById('login-username-input');
+    const passwordInput = document.getElementById('login-password-input');
 
     if (role === 'admin') {
         pillAdmin.classList.add('active');
@@ -200,14 +201,18 @@ function selectTitaniumRole(role) {
         submitBtn.textContent = 'Sign In as Admin';
         portalSub.textContent = 'Admin / Staff Control Panel';
         roleInput.value = 'admin';
-        usernameInput.placeholder = 'admin@gmail.com or eswar_123';
+        usernameInput.placeholder = 'admin@titaniumfitness.com';
+        usernameInput.value = 'admin@titaniumfitness.com';
+        passwordInput.value = 'Admin@123';
     } else {
         pillMember.classList.add('active');
         pillAdmin.classList.remove('active');
         submitBtn.textContent = 'Sign In as Member';
         portalSub.textContent = 'Member Fitness Dashboard';
         roleInput.value = 'member';
-        usernameInput.placeholder = 'member@gmail.com or member_1';
+        usernameInput.placeholder = 'member@gmail.com';
+        usernameInput.value = 'member@gmail.com';
+        passwordInput.value = 'member@123';
     }
 }
 
