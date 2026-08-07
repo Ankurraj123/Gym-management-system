@@ -141,9 +141,17 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Role Switcher Tabs (4 Roles) */}
+          {/* Role Switcher Tabs (4 Roles: Member, Admin, Trainer, Receptionist) */}
           <div className="auth-role-tabs-wrapper" style={{ marginBottom: '20px' }}>
             <div className="auth-role-tabs" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px', background: 'rgba(255,255,255,0.05)', padding: '4px', borderRadius: '12px' }}>
+              <button
+                type="button"
+                className={`role-tab ${role === 'member' ? 'active' : ''}`}
+                onClick={() => handleRoleSwitch('member')}
+                style={{ padding: '8px 4px', fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+              >
+                <MdPerson size={14} /> Member
+              </button>
               <button
                 type="button"
                 className={`role-tab ${role === 'admin' ? 'active' : ''}`}
@@ -151,14 +159,6 @@ export default function Login() {
                 style={{ padding: '8px 4px', fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
               >
                 <MdShield size={14} /> Admin
-              </button>
-              <button
-                type="button"
-                className={`role-tab ${role === 'receptionist' ? 'active' : ''}`}
-                onClick={() => handleRoleSwitch('receptionist')}
-                style={{ padding: '8px 4px', fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
-              >
-                <MdPerson size={14} /> Recep
               </button>
               <button
                 type="button"
@@ -170,11 +170,11 @@ export default function Login() {
               </button>
               <button
                 type="button"
-                className={`role-tab ${role === 'member' ? 'active' : ''}`}
-                onClick={() => handleRoleSwitch('member')}
+                className={`role-tab ${role === 'receptionist' ? 'active' : ''}`}
+                onClick={() => handleRoleSwitch('receptionist')}
                 style={{ padding: '8px 4px', fontSize: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
               >
-                <MdPerson size={14} /> Member
+                <MdPerson size={14} /> Recep
               </button>
             </div>
           </div>
