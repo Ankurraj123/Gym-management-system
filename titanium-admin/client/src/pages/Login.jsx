@@ -135,7 +135,7 @@ export default function Login() {
             <div className="brand-badge">
               <MdFitnessCenter size={30} className="neon-icon" />
             </div>
-            <h1 className="auth-brand-title">TITANIUM FITNESS</h1>
+            <h1 className="auth-brand-title">AXIS GYM</h1>
             <p className="auth-brand-subtitle">
               {role === 'admin' ? 'Admin Management System' : 'Member Fitness Dashboard'}
             </p>
