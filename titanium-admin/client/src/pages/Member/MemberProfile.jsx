@@ -10,6 +10,7 @@ export default function MemberProfile() {
   const [name, setName] = useState(user?.name || '');
   const [phone, setPhone] = useState(user?.phone || '');
   const [address, setAddress] = useState(user?.address || '');
+  const [emergencyContact, setEmergencyContact] = useState(user?.emergencyContact || '');
   const [weight, setWeight] = useState(user?.weight || 70);
   const [height, setHeight] = useState(user?.height || 175);
   const [goal, setGoal] = useState(user?.goal || 'General Fitness');
@@ -28,6 +29,7 @@ export default function MemberProfile() {
       setName(user.name || '');
       setPhone(user.phone || '');
       setAddress(user.address || '');
+      setEmergencyContact(user.emergencyContact || '');
       setWeight(user.weight || 70);
       setHeight(user.height || 175);
       setGoal(user.goal || 'General Fitness');
@@ -106,8 +108,8 @@ export default function MemberProfile() {
             </div>
 
             <div className="form-group-custom">
-              <label>Residential Address</label>
-              <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Enter home address" />
+              <label>Emergency Contact (Name & Phone)</label>
+              <input type="text" value={emergencyContact} onChange={(e) => setEmergencyContact(e.target.value)} placeholder="e.g. Jane Doe - 9876543210" />
             </div>
 
             <button type="submit" className="btn btn-neon-primary" disabled={savingProfile}>
