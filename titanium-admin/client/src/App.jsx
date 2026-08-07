@@ -37,6 +37,14 @@ import Profile from './pages/Profile';
 
 import './index.css';
 
+// Receptionist Pages
+import RecepDashboard from './pages/Recep/RecepDashboard';
+import RecepMembers from './pages/Recep/RecepMembers';
+import RecepMembership from './pages/Recep/RecepMembership';
+import RecepPayments from './pages/Recep/RecepPayments';
+import RecepAttendance from './pages/Recep/RecepAttendance';
+import RecepAppointments from './pages/Recep/RecepAppointments';
+
 function ProtectedRoute({ children, allowedRole }) {
   const { user, loading } = useAuth();
 
@@ -53,8 +61,12 @@ function ProtectedRoute({ children, allowedRole }) {
     return <Navigate to="/login" replace />;
   }
 
-  if (allowedRole && user.role !== allowedRole) {
-    return <Navigate to={user.role === 'admin' ? '/admin/dashboard' : '/member/dashboard'} replace />;
+  if (allowedRole && user.role !== allowedRole && !(allowedRole === 'receptionist' && (user.role === 'recep' || user.role === 'receptionist'))) {
+    const role = user.role;
+    let redirectPath = '/member/dashboard';
+    if (role === 'admin') redirectPath = '/admin/dashboard';
+    if (role === 'receptionist' || role === 'recep') redirectPath = '/recep/dashboard';
+    return <Navigate to={redirectPath} replace />;
   }
 
   return children;
@@ -85,6 +97,18 @@ function App() {
           <Route path="/admin/login" element={<Navigate to="/login" replace />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+
+          {/* Receptionist Protected Routes */}
+          <Route path="/recep" element={<ProtectedRoute allowedRole="receptionist"><Layout /></ProtectedRoute>}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<RecepDashboard />} />
+            <Route path="members" element={<RecepMembers />} />
+            <Route path="membership" element={<RecepMembership />} />
+            <Route path="payments" element={<RecepPayments />} />
+            <Route path="attendance" element={<RecepAttendance />} />
+            <Route path="appointments" element={<RecepAppointments />} />
+            <Route path="profile" element={<MemberProfile />} />
+          </Route>
 
           {/* Member Protected Routes */}
           <Route path="/member" element={<ProtectedRoute allowedRole="member"><Layout /></ProtectedRoute>}>
