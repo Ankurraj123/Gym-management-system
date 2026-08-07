@@ -370,10 +370,8 @@ def update_password(username):
 	return render_template('updatePassword.html', form = form)
 
 @app.route('/adminDash')
-@is_logged_in
-@is_admin
 def adminDash():
-	return render_template('adminDash.html')
+	return redirect('/admin/dashboard')
 
 values = []
 choices = []
@@ -704,9 +702,8 @@ def viewDetails():
 
 
 @app.route('/recepDash')
-@is_recep_level
 def recepDash():
-	return render_template('recepDash.html')
+	return redirect('/recep/dashboard')
 
 class trainorForm(Form):
 	name = RadioField('Select Username', choices = choices)
@@ -716,9 +713,8 @@ class trainorForm(Form):
 
 
 @app.route('/trainorDash', methods = ['GET', 'POST'])
-@is_logged_in
-@is_trainor
 def trainorDash():
+	return redirect('/trainer/dashboard')
 	choices.clear()
 	cur = mysql.connection.cursor()
 	cur.execute("SELECT name, count FROM equip")
@@ -815,9 +811,10 @@ def updatePlans():
 
 
 
-@app.route('/memberDash/<string:username>')
-@is_logged_in
-def memberDash(username):
+@app.route('/memberDash')
+@app.route('/memberDash/<path:subpath>')
+def memberDash(subpath=''):
+	return redirect('/member/dashboard')
 	if session['prof']==4 and username!=session['username']:
 		flash('You aren\'t authorised to view other\'s Dashboards', 'danger')
 		return redirect(url_for('memberDash', username = session['username']))
