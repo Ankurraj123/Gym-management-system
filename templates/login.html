@@ -240,6 +240,21 @@ function fillTitaniumRole(username, password, role) {
     document.getElementById('login-password-input').value = password;
 }
 
+document.getElementById('main-login-form').addEventListener('submit', function() {
+    const role = document.getElementById('selected-role-input').value || 'member';
+    const username = document.getElementById('login-username-input').value;
+    const fallbackUser = {
+        email: username,
+        username: username,
+        name: role === 'admin' ? 'System Admin' : role === 'trainer' ? 'Lead Trainer' : role === 'receptionist' ? 'Front Desk Staff' : 'Member',
+        role: role,
+        prof: role === 'admin' ? 1 : role === 'receptionist' ? 2 : role === 'trainer' ? 3 : 4
+    };
+    localStorage.setItem('tf_token', 'demo_token');
+    localStorage.setItem('tf_admin_token', 'demo_token');
+    localStorage.setItem('tf_user', JSON.stringify(fallbackUser));
+});
+
 function togglePasswordVisibility() {
     const pwd = document.getElementById('login-password-input');
     if (pwd.type === 'password') {
