@@ -45,6 +45,14 @@ import RecepPayments from './pages/Recep/RecepPayments';
 import RecepAttendance from './pages/Recep/RecepAttendance';
 import RecepAppointments from './pages/Recep/RecepAppointments';
 
+// Trainer Pages
+import TrainerDashboard from './pages/Trainer/TrainerDashboard';
+import TrainerMembers from './pages/Trainer/TrainerMembers';
+import TrainerWorkouts from './pages/Trainer/TrainerWorkouts';
+import TrainerDiet from './pages/Trainer/TrainerDiet';
+import TrainerAppointments from './pages/Trainer/TrainerAppointments';
+import TrainerMessages from './pages/Trainer/TrainerMessages';
+
 function ProtectedRoute({ children, allowedRole }) {
   const { user, loading } = useAuth();
 
@@ -61,11 +69,17 @@ function ProtectedRoute({ children, allowedRole }) {
     return <Navigate to="/login" replace />;
   }
 
-  if (allowedRole && user.role !== allowedRole && !(allowedRole === 'receptionist' && (user.role === 'recep' || user.role === 'receptionist'))) {
-    const role = user.role;
+  const role = user.role;
+  const isAllowed =
+    user.role === allowedRole ||
+    (allowedRole === 'receptionist' && (role === 'recep' || role === 'receptionist')) ||
+    (allowedRole === 'trainer' && role === 'trainer');
+
+  if (allowedRole && !isAllowed) {
     let redirectPath = '/member/dashboard';
     if (role === 'admin') redirectPath = '/admin/dashboard';
     if (role === 'receptionist' || role === 'recep') redirectPath = '/recep/dashboard';
+    if (role === 'trainer') redirectPath = '/trainer/dashboard';
     return <Navigate to={redirectPath} replace />;
   }
 
@@ -97,6 +111,18 @@ function App() {
           <Route path="/admin/login" element={<Navigate to="/login" replace />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+
+          {/* Trainer Protected Routes */}
+          <Route path="/trainer" element={<ProtectedRoute allowedRole="trainer"><Layout /></ProtectedRoute>}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<TrainerDashboard />} />
+            <Route path="members" element={<TrainerMembers />} />
+            <Route path="workouts" element={<TrainerWorkouts />} />
+            <Route path="diet" element={<TrainerDiet />} />
+            <Route path="appointments" element={<TrainerAppointments />} />
+            <Route path="messages" element={<TrainerMessages />} />
+            <Route path="profile" element={<MemberProfile />} />
+          </Route>
 
           {/* Receptionist Protected Routes */}
           <Route path="/recep" element={<ProtectedRoute allowedRole="receptionist"><Layout /></ProtectedRoute>}>
