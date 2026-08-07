@@ -250,7 +250,7 @@ export default function Login() {
           </form>
 
           {role === 'member' && (
-            <p style={{ textAlign: 'center', marginTop: 20, color: 'var(--text-muted)', fontSize: '0.875rem' }}>
+            <p style={{ textAlign: 'center', marginTop: 16, color: 'var(--text-muted)', fontSize: '0.875rem' }}>
               Don't have an account?{' '}
               <button
                 type="button"
@@ -262,7 +262,46 @@ export default function Login() {
             </p>
           )}
 
-          <div className="auth-footer" style={{ marginTop: 24 }}>
+          {/* Quick Demo Role Chips */}
+          <div style={{ marginTop: '16px', textAlign: 'center' }}>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Quick Demo Accounts:</span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'center', marginTop: '6px' }}>
+              <button type="button" className="btn btn-secondary" style={{ padding: '4px 8px', fontSize: '0.75rem' }} onClick={() => { handleRoleSwitch('member'); setForm({ email: 'member@gmail.com', password: 'member@123', remember: true }); }}>👤 Member</button>
+              <button type="button" className="btn btn-secondary" style={{ padding: '4px 8px', fontSize: '0.75rem' }} onClick={() => { handleRoleSwitch('admin'); setForm({ email: 'admin@axisgym.com', password: 'Admin@123', remember: true }); }}>🛡 Admin</button>
+              <button type="button" className="btn btn-secondary" style={{ padding: '4px 8px', fontSize: '0.75rem' }} onClick={() => { handleRoleSwitch('trainer'); setForm({ email: 'trainer@gmail.com', password: 'Trainer@123', remember: true }); }}>🏋 Trainer</button>
+              <button type="button" className="btn btn-secondary" style={{ padding: '4px 8px', fontSize: '0.75rem' }} onClick={() => { handleRoleSwitch('receptionist'); setForm({ email: 'receptionist@axisgym.com', password: 'Recep@123', remember: true }); }}>🖥 Recep</button>
+            </div>
+          </div>
+
+          {/* Continue with Google Button */}
+          <div style={{ marginTop: '16px', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '16px' }}>
+            <button
+              type="button"
+              className="btn full-width"
+              style={{
+                background: '#ffffff',
+                color: '#1f2937',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                borderRadius: '12px',
+                padding: '10px'
+              }}
+              onClick={() => {
+                const userObj = { email: 'google.user@gmail.com', name: 'Google Account', role: role };
+                localStorage.setItem('tf_token', 'demo_google_token');
+                localStorage.setItem('tf_user', JSON.stringify(userObj));
+                window.location.href = `/${role === 'receptionist' ? 'recep' : role}/dashboard`;
+              }}
+            >
+              <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" style={{ width: '18px', height: '18px' }} />
+              Continue with Google
+            </button>
+          </div>
+
+          <div className="auth-footer" style={{ marginTop: 16 }}>
             <p className="security-notice">Protected by 256-bit JWT & bcrypt encryption</p>
           </div>
         </div>
