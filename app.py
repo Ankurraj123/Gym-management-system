@@ -68,6 +68,18 @@ class DictRowCursor:
     def close(self):
         self.cur.close()
 
+_db_initialized = False
+
+def ensure_db_initialized():
+    global _db_initialized
+    if not _db_initialized:
+        _db_initialized = True
+        try:
+            from init_db import init_db
+            init_db()
+        except Exception as e:
+            print(f"Auto DB init log: {e}")
+
 class DatabaseConnection:
     def __init__(self, db_path=None):
         self.db_path = db_path or os.path.join(os.path.dirname(__file__), "gym.db")
@@ -112,6 +124,9 @@ def close_connection(exception):
         db.close()
 
 mysql = MySQL(app)
+
+with app.app_context():
+    ensure_db_initialized()
 
 def is_logged_in(f):
 	@wraps(f)
@@ -1086,5 +1101,4 @@ def logout():
 
 if __name__ == "__main__":
 	port = int(os.environ.get('PORT', 5000))
-	debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
-	app.run(host='0.0.0.0', port=port, debug=debug_mode)
+	app.run(host='0.0.0.0', port=port, debug=True)
