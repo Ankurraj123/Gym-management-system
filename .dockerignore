@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.db
+*.sqlite3
+.env
+venv/
+.venv/
+.git/
+.gitignore
+Dockerfile
+docker-compose.yml
+node_modules/
+**/node_modules/
+titanium-admin/data/
+titanium-admin/server/dbdata/
