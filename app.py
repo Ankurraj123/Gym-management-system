@@ -191,7 +191,7 @@ def login():
 		db_username = raw_username
 		if raw_username in ['member@gmail.com', 'member']:
 			db_username = 'member_1'
-		elif raw_username in ['admin@titaniumfitness.com', 'admin@gmail.com', 'admin']:
+		elif raw_username in ['admin@axisgym.com', 'admin@titaniumfitness.com', 'admin@gmail.com', 'admin']:
 			db_username = 'eswar_123'
 		elif raw_username in ['trainer@gmail.com', 'trainer_1']:
 			db_username = 'trainer_1'
