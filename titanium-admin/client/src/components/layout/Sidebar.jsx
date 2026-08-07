@@ -36,6 +36,24 @@ const adminNavItems = [
   { path: '/admin/profile', icon: <MdPerson size={20} />, label: 'Profile' }
 ];
 
+const recepNavItems = [
+  { path: '/recep/dashboard', icon: <MdDashboard size={20} />, label: 'Dashboard' },
+  { path: '/recep/members', icon: <MdPeople size={20} />, label: 'Register Member' },
+  { path: '/recep/membership', icon: <MdCardMembership size={20} />, label: 'Renewals' },
+  { path: '/recep/payments', icon: <MdPayment size={20} />, label: 'Collect Payment' },
+  { path: '/recep/attendance', icon: <MdCalendarToday size={20} />, label: 'Attendance Check-in' },
+  { path: '/recep/profile', icon: <MdPerson size={20} />, label: 'Profile' }
+];
+
+const trainerNavItems = [
+  { path: '/trainer/dashboard', icon: <MdDashboard size={20} />, label: 'Dashboard' },
+  { path: '/trainer/members', icon: <MdPeople size={20} />, label: 'Assigned Members' },
+  { path: '/trainer/workouts', icon: <MdDirectionsRun size={20} />, label: 'Workout Plans' },
+  { path: '/trainer/diet', icon: <MdRestaurantMenu size={20} />, label: 'Diet Plans' },
+  { path: '/trainer/attendance', icon: <MdCalendarToday size={20} />, label: 'Session Logs' },
+  { path: '/trainer/profile', icon: <MdPerson size={20} />, label: 'Profile' }
+];
+
 const memberNavItems = [
   { path: '/member/dashboard', icon: <MdDashboard size={20} />, label: 'Dashboard' },
   { path: '/member/workout', icon: <MdDirectionsRun size={20} />, label: 'Workout' },
@@ -51,8 +69,21 @@ export default function Sidebar({ collapsed, setCollapsed }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  const role = user?.role === 'admin' ? 'admin' : 'member';
-  const navItems = role === 'admin' ? adminNavItems : memberNavItems;
+  const role = user?.role ? user.role.toLowerCase() : 'member';
+  
+  let navItems = memberNavItems;
+  let subLabel = 'MEMBER PORTAL';
+
+  if (role === 'admin') {
+    navItems = adminNavItems;
+    subLabel = 'ADMIN PANEL';
+  } else if (role === 'receptionist' || role === 'recep') {
+    navItems = recepNavItems;
+    subLabel = 'RECEPTIONIST PORTAL';
+  } else if (role === 'trainer') {
+    navItems = trainerNavItems;
+    subLabel = 'TRAINER PORTAL';
+  }
 
   const handleLogout = () => {
     logout();
@@ -62,11 +93,11 @@ export default function Sidebar({ collapsed, setCollapsed }) {
   return (
     <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
       <div className="sidebar-logo">
-        <div className="logo-icon">TF</div>
+        <div className="logo-icon">AX</div>
         {!collapsed && (
           <div>
-            <div className="logo-text">Titanium Fitness</div>
-            <div className="logo-sub">{role === 'admin' ? 'ADMIN PANEL' : 'MEMBER PORTAL'}</div>
+            <div className="logo-text">AXIS GYM</div>
+            <div className="logo-sub">{subLabel}</div>
           </div>
         )}
       </div>
