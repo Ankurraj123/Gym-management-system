@@ -181,66 +181,10 @@ def index():
 	cur.close()
 	return render_template('home.html', plans=plans, trainers=trainers, equip=equip)
 
-@app.route('/login', methods = ['GET', 'POST'])
-def login():
-	if request.method == 'POST':
-		raw_username = request.form.get('username', '').strip()
-		password_candidate = request.form.get('password', '').strip()
-		selected_role = request.form.get('selected_role', 'member').strip()
-
-		db_username = raw_username
-		if raw_username in ['member@gmail.com', 'member']:
-			db_username = 'member_1'
-		elif raw_username in ['admin@axisgym.com', 'admin@titaniumfitness.com', 'admin@gmail.com', 'admin']:
-			db_username = 'eswar_123'
-		elif raw_username in ['trainer@gmail.com', 'trainer_1']:
-			db_username = 'trainer_1'
-		elif raw_username in ['recep@gmail.com', 'recep_1']:
-			db_username = 'recep_1'
-
-		cur = mysql.connection.cursor()
-		cur.execute('SELECT * FROM info WHERE username = %s', [db_username])
-		data = cur.fetchone()
-		cur.close()
-
-		if data:
-			password = data['password']
-			is_valid = False
-			try:
-				is_valid = sha256_crypt.verify(password_candidate, password)
-			except Exception:
-				is_valid = False
-
-			if not is_valid:
-				if password_candidate in ['123456', 'admin', 'Admin@123', 'member@123', 'password']:
-					is_valid = True
-
-			if is_valid:
-				prof = data['prof']
-				if selected_role == 'admin' and prof == 4:
-					return render_template('login.html', error = 'Invalid admin credentials')
-
-				session['logged_in'] = True
-				session['username'] = data['username']
-				session['prof'] = prof
-				flash('You are logged in', 'success')
-				if prof == 1:
-					return redirect(url_for('adminDash'))
-				if prof == 3:
-					return redirect(url_for('trainorDash'))
-				if prof == 2:
-					return redirect(url_for('recepDash'))
-				return redirect(url_for('memberDash', username = data['username']))
-			else:
-				err_msg = 'Invalid admin credentials' if selected_role == 'admin' else 'Invalid login'
-				return render_template('login.html', error = err_msg)
-		else:
-			err_msg = 'Invalid admin credentials' if selected_role == 'admin' else 'Username NOT FOUND'
-			return render_template('login.html', error = err_msg)
-
-	return render_template('login.html')
-
+@app.route('/')
 @app.route('/login')
+@app.route('/register')
+@app.route('/forgot-password')
 @app.route('/admin', defaults={'path': ''})
 @app.route('/admin/<path:path>')
 @app.route('/member', defaults={'path': ''})
