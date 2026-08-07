@@ -245,7 +245,7 @@ export default function Login() {
               className="btn btn-neon-primary full-width"
               disabled={loading}
             >
-              {loading ? 'Authenticating...' : (role === 'admin' ? 'Sign In as Admin' : 'Sign In as Member')}
+              {loading ? 'Authenticating...' : `Sign In as ${role === 'receptionist' ? 'Receptionist' : role.charAt(0).toUpperCase() + role.slice(1)}`}
             </button>
           </form>
 
