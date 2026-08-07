@@ -240,11 +240,16 @@ def login():
 
 	return render_template('login.html')
 
+@app.route('/login')
 @app.route('/admin', defaults={'path': ''})
 @app.route('/admin/<path:path>')
 @app.route('/member', defaults={'path': ''})
 @app.route('/member/<path:path>')
-def serve_titanium_spa(path):
+@app.route('/recep', defaults={'path': ''})
+@app.route('/recep/<path:path>')
+@app.route('/trainer', defaults={'path': ''})
+@app.route('/trainer/<path:path>')
+def serve_titanium_spa(path=''):
     dist_dir = os.path.join(app.root_path, 'titanium-admin', 'client', 'dist')
     if path != "" and os.path.exists(os.path.join(dist_dir, path)):
         return send_from_directory(dist_dir, path)
