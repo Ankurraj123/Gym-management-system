@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>The Gym</title>
+	<link rel="stylesheet" href="{{url_for('static', filename = 'assets/bootstrap/css/bootstrap.min.css')}}">
+	<link rel="stylesheet" href="{{url_for('static', filename = 'custom.css')}}">
+</head>
+<body>
+	{% include 'includes/_navbar.html' %}
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="{% if request.path != '/login' and request.path != '/' %}container{% endif %}">
+		{% include 'includes/_messages.html' %}
+		{% block body %}{% endblock %}
+	</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="{{url_for('static', filename = 'assets/bootstrap/js/bootstrap.min.js')}}"></script>
+</body>
+</html>

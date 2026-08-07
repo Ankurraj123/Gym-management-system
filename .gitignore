@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.db
+*.sqlite3
+.env
+venv/
+.venv/
+instance/
+.DS_Store
+
+# Node / Subfolder ignore
+node_modules/
+**/node_modules/
+titanium-admin/data/
+titanium-admin/server/data/
+titanium-admin/server/dbdata/
+titanium-admin/client/dist/
+titanium-admin/server/node_modules/
+titanium-admin/client/node_modules/

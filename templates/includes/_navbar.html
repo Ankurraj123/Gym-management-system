@@ -1,0 +1,55 @@
+<nav class="navbar navbar-dark navbar-expand-md fixed-top">
+    <a class="navbar-brand" href="/">TITANIUM FITNESS</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        {% if session.logged_in and session.prof == 4 %}
+        <!-- Recommended Member Navbar -->
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" id="nav-dashboard" href="{{url_for('memberDash', username = session.username)}}?tab=dashboard">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" id="nav-workout" href="{{url_for('memberDash', username = session.username)}}?tab=workout">Workout</a></li>
+            <li class="nav-item"><a class="nav-link" id="nav-diet" href="{{url_for('memberDash', username = session.username)}}?tab=diet">Diet</a></li>
+            <li class="nav-item"><a class="nav-link" id="nav-attendance" href="{{url_for('memberDash', username = session.username)}}?tab=attendance">Attendance</a></li>
+            <li class="nav-item"><a class="nav-link" id="nav-trainer" href="{{url_for('memberDash', username = session.username)}}?tab=trainer">Trainer</a></li>
+            <li class="nav-item"><a class="nav-link" id="nav-membership" href="{{url_for('memberDash', username = session.username)}}?tab=membership">Membership</a></li>
+            <li class="nav-item"><a class="nav-link" id="nav-payments" href="{{url_for('memberDash', username = session.username)}}?tab=payments">Payments</a></li>
+            <li class="nav-item"><a class="nav-link" id="nav-profile" href="{{url_for('memberDash', username = session.username)}}?tab=profile">Profile</a></li>
+            <li class="nav-item"><a class="nav-link text-danger" href="/logout">Logout</a></li>
+        </ul>
+        {% else %}
+        <!-- Standard Public/Staff Navbar -->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/#programs">Programs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/#trainers">Trainers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/#facilities">Facilities</a>
+            </li>
+        </ul>
+        
+        <ul class="navbar-nav ml-auto">
+            {% if not session.logged_in %}
+            <li class="nav-item">
+                <a class="nav-link nav-login-btn" href="/login">Login</a>
+            </li>
+            {% else %}
+                {% if session.prof == 1 %}
+                <li class="nav-item"><a class="nav-link" href="/adminDash">Dashboard</a></li>
+                {% elif session.prof == 2 %}
+                <li class="nav-item"><a class="nav-link" href="/recepDash">Dashboard</a></li>
+                {% elif session.prof == 3 %}
+                <li class="nav-item"><a class="nav-link" href="/trainorDash">Dashboard</a></li>
+                {% endif %}
+                
+                <li class="nav-item"><a class="nav-link" href="{{url_for('profile', username = session.username)}}">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+    </div>
+</nav>

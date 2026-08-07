@@ -1,0 +1,105 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="row mt-4">
+    <!-- Left Pane: Member Display Profile Card -->
+    <div class="{% if result['username'] == session['username'] %}col-md-5{% else %}col-md-8 mx-auto{% endif %} mb-4">
+        <div class="profile-card-display glass-card p-4 text-center">
+            <div class="profile-card-avatar mx-auto mb-3">
+                {{ result['name'][0] | upper if result['name'] else 'G' }}
+            </div>
+            
+            <h3 class="profile-card-name mb-1 font-weight-bold">{{ result['name'] or 'Gym Member' }}</h3>
+            <p class="profile-card-username mb-3 font-weight-bold" style="letter-spacing: 1px;">@{{ result['username'] }}</p>
+            
+            <!-- Mock Badges for Premium Look -->
+            <div class="profile-metrics-mini mb-4">
+                <div class="profile-metric-mini-item">
+                    <span class="profile-metric-mini-val">85 Kg</span>
+                    <span class="profile-metric-mini-label">Weight</span>
+                </div>
+                <div class="profile-metric-mini-item">
+                    <span class="profile-metric-mini-val">Sep 05</span>
+                    <span class="profile-metric-mini-label">Latest Log</span>
+                </div>
+                <div class="profile-metric-mini-item">
+                    <span class="profile-metric-mini-val">120 bpm</span>
+                    <span class="profile-metric-mini-label">Max HR</span>
+                </div>
+            </div>
+            
+            <!-- Details Fields List -->
+            <div class="profile-details-list">
+                <div class="profile-detail-item">
+                    <span class="profile-detail-label">Email:</span>
+                    <span class="profile-detail-val">{{ result['username'] }}</span>
+                </div>
+                <div class="profile-detail-item">
+                    <span class="profile-detail-label">Phone:</span>
+                    <span class="profile-detail-val">{{ result['phone'] or 'N/A' }}</span>
+                </div>
+                <div class="profile-detail-item">
+                    <span class="profile-detail-label">Street Address:</span>
+                    <span class="profile-detail-val">{{ result['street'] or 'N/A' }}</span>
+                </div>
+                <div class="profile-detail-item">
+                    <span class="profile-detail-label">City Location:</span>
+                    <span class="profile-detail-val">{{ result['city'] or 'N/A' }}</span>
+                </div>
+                <div class="profile-detail-item">
+                    <span class="profile-detail-label">Profession:</span>
+                    <span class="profile-detail-val">
+                        {% if result['prof'] == 1 %}
+                            Owner
+                        {% elif result['prof'] == 2 %}
+                            Receptionist
+                        {% elif result['prof'] == 3 %}
+                            Trainer
+                        {% else %}
+                            Active Member
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Pane: Edit Profile Settings (Only shown if viewing own profile) -->
+    {% if result['username'] == session['username'] %}
+    <div class="col-md-7 mb-4">
+        <div class="form-card-edit glass-card p-4">
+            <h3 class="text-white mb-4"><i class="fas fa-cog text-purple-glow"></i> Edit Profile Settings</h3>
+            
+            <form action="/update_profile" method="POST">
+                <div class="form-underline-group">
+                    <label class="form-underline-label">Full Name</label>
+                    <input type="text" name="name" class="form-underline-input" value="{{ result['name'] or '' }}" required>
+                </div>
+                
+                <div class="form-underline-group">
+                    <label class="form-underline-label">Phone Number</label>
+                    <input type="text" name="phone" class="form-underline-input" value="{{ result['phone'] or '' }}" required>
+                </div>
+                
+                <div class="form-underline-group">
+                    <label class="form-underline-label">Street Address</label>
+                    <input type="text" name="street" class="form-underline-input" value="{{ result['street'] or '' }}" required>
+                </div>
+                
+                <div class="form-underline-group">
+                    <label class="form-underline-label">City</label>
+                    <input type="text" name="city" class="form-underline-input" value="{{ result['city'] or '' }}" required>
+                </div>
+                
+                <div class="form-underline-group">
+                    <label class="form-underline-label">Change Password (Leave blank to keep current)</label>
+                    <input type="password" name="password" class="form-underline-input" placeholder="New Password">
+                </div>
+                
+                <button type="submit" class="btn btn-purple-glow btn-block mt-5 py-3 font-weight-bold" style="font-size: 1.1rem; border-radius: 30px;">SAVE CHANGES</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

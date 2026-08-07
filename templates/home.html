@@ -1,0 +1,150 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="hero-badge">The Future of Fitness</div>
+    <h1 class="hero-title">
+        <span class="title-transform">Transform Your</span>
+        <span class="title-limits">Limits</span>
+    </h1>
+    <p class="hero-subtitle">
+        Elite coaching, cutting-edge equipment, and a high-performance community built on raw grit and scientific precision.
+    </p>
+    <div class="hero-actions">
+        {% if session.logged_in %}
+            {% if session.prof == 1 %}
+                <a href="/adminDash" class="btn btn-neon">Start Your Journey</a>
+            {% elif session.prof == 2 %}
+                <a href="/recepDash" class="btn btn-neon">Start Your Journey</a>
+            {% elif session.prof == 3 %}
+                <a href="/trainorDash" class="btn btn-neon">Start Your Journey</a>
+            {% else %}
+                <a href="{{url_for('memberDash', username = session.username)}}" class="btn btn-neon">Start Your Journey</a>
+            {% endif %}
+        {% else %}
+            <a href="/login" class="btn btn-neon">Start Your Journey</a>
+        {% endif %}
+        <a href="#programs" class="btn btn-neon-outline">View Programs</a>
+    </div>
+    
+    <div class="scroll-indicator" onclick="document.getElementById('programs').scrollIntoView({behavior: 'smooth'})">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <polyline points="19 12 12 19 5 12"></polyline>
+        </svg>
+    </div>
+</div>
+
+<!-- Programs Section -->
+<div id="programs" class="landing-section">
+    <div class="section-header">
+        <span class="section-tag">Programs</span>
+        <h2 class="section-title">Our Specialities</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="program-card">
+                <div class="program-icon">🏋️</div>
+                <h3>Strength & Power</h3>
+                <p class="text-muted">Build a rock-solid foundation with professional powerlifting, weightlifting, and compound barbell training.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="program-card">
+                <div class="program-icon">⚡</div>
+                <h3>Cardio Burn</h3>
+                <p class="text-muted">High-intensity cardiovascular circuits designed to maximize calorie burn and supercharge endurance.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="program-card">
+                <div class="program-icon">🧘</div>
+                <h3>Flexibility & Core</h3>
+                <p class="text-muted">Enhance mobility, correct posture, and strengthen your core with customized flexibility regimens.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Trainers Section -->
+<div id="trainers" class="landing-section">
+    <div class="section-header">
+        <span class="section-tag">Trainers</span>
+        <h2 class="section-title">Expert Coaches</h2>
+    </div>
+    <div class="row">
+        {% if trainers %}
+            {% for trainer in trainers %}
+            <div class="col-md-4 mb-4">
+                <div class="trainer-card">
+                    <div class="trainer-img-placeholder"></div>
+                    <div class="trainer-info">
+                        <div class="trainer-name">{{ trainer['name'] }}</div>
+                        <div class="trainer-role">Certified Fitness Coach</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-md-4 mb-4">
+                <div class="trainer-card">
+                    <div class="trainer-img-placeholder"></div>
+                    <div class="trainer-info">
+                        <div class="trainer-name">Alex Johnson</div>
+                        <div class="trainer-role">Strength Head Coach</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="trainer-card">
+                    <div class="trainer-img-placeholder"></div>
+                    <div class="trainer-info">
+                        <div class="trainer-name">Sarah Connor</div>
+                        <div class="trainer-role">HIIT Specialist</div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Facilities / Equipment Section -->
+<div id="facilities" class="landing-section">
+    <div class="section-header">
+        <span class="section-tag">Facilities</span>
+        <h2 class="section-title">Premium Equipment</h2>
+    </div>
+    <div class="row">
+        {% if equip %}
+            {% for item in equip %}
+            <div class="col-md-4 mb-4">
+                <div class="program-card">
+                    <div class="program-icon">⚙️</div>
+                    <h3>{{ item['name'] }}</h3>
+                    <p class="text-neon font-weight-bold" style="font-size: 1.25rem;">{{ item['count'] }} Available Units</p>
+                    <p class="text-muted">Top of the line gym assets regularly maintained for perfect safety and performance.</p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-md-4 mb-4">
+                <div class="program-card">
+                    <div class="program-icon">⚙️</div>
+                    <h3>Treadmill Units</h3>
+                    <p class="text-neon font-weight-bold" style="font-size: 1.25rem;">5 Units</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="program-card">
+                    <div class="program-icon">⚙️</div>
+                    <h3>Heavy Dumbbells</h3>
+                    <p class="text-neon font-weight-bold" style="font-size: 1.25rem;">15 Units</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,219 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="login-split-container">
+    <!-- Left Pane -->
+    <div class="login-left-pane">
+        <div class="login-left-content">
+            <h1 class="welcome-text" id="welcome-pane-title">Welcome Back!</h1>
+            <p class="welcome-sub" id="welcome-pane-sub">Enter your credentials to return to your personalized training dashboard and track your fitness progress.</p>
+        </div>
+    </div>
+    
+    <!-- Right Pane -->
+    <div class="login-right-pane">
+        <!-- Login Form Wrapper -->
+        <div class="login-form-wrapper" id="login-form-wrapper">
+            <h2 class="form-title">Authorization</h2>
+            <p class="form-sub">Login to your personal account</p>
+            
+            {% if error %}
+                <div class="alert alert-danger">{{error}}</div>
+            {% endif %}
+            <div id="login-alert-container"></div>
+            
+            <form action="" method="POST">
+                <div class="form-underline-group">
+                    <input type="text" name="username" class="form-underline-input" placeholder="Username" value="{{request.form.username or ''}}" required autocomplete="off">
+                </div>
+                <div class="form-underline-group">
+                    <input type="password" name="password" class="form-underline-input" placeholder="Password" value="{{request.form.password or ''}}" required>
+                </div>
+                
+                <button type="submit" class="btn btn-purple-glow btn-block">Login</button>
+            </form>
+            
+            <span class="form-toggle-link" onclick="toggleAuthForms('signup')">Don't have an account? Sign Up</span>
+            
+            <div class="auth-divider">or</div>
+            
+            <button type="button" class="btn btn-google btn-block" onclick="openGoogleModal()">
+                <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google logo">
+                Continue with Google
+            </button>
+        </div>
+
+        <!-- Signup Form Wrapper (Hidden by default) -->
+        <div class="login-form-wrapper" id="signup-form-wrapper" style="display: none;">
+            <h2 class="form-title">Registration</h2>
+            <p class="form-sub">Create a new membership account</p>
+            
+            <div id="signup-alert-container"></div>
+            
+            <form id="signup-ajax-form">
+                <div class="form-underline-group">
+                    <input type="text" name="name" class="form-underline-input" placeholder="Enter your name" required autocomplete="off">
+                </div>
+                <div class="form-underline-group">
+                    <input type="email" name="email" class="form-underline-input" placeholder="youremail@email.com" required autocomplete="off">
+                </div>
+                <div class="form-underline-group">
+                    <input type="password" name="password" id="signup-password" class="form-underline-input" placeholder="Password" required>
+                </div>
+                <div class="form-underline-group">
+                    <input type="password" name="confirm" id="signup-confirm" class="form-underline-input" placeholder="Confirm password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-purple-glow btn-block">Signup</button>
+            </form>
+            
+            <span class="form-toggle-link" onclick="toggleAuthForms('login')">Already have an account? Log In</span>
+            
+            <div class="auth-divider">or</div>
+            
+            <button type="button" class="btn btn-google btn-block" onclick="openGoogleModal()">
+                <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google logo">
+                Continue with Google
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Mock Google Accounts Chooser Modal -->
+<div id="google-auth-modal" class="google-modal" onclick="event.target === this && closeGoogleModal()">
+    <div class="google-modal-content">
+        <div class="google-brand">
+            <svg viewBox="0 0 74 24" width="74" height="24">
+                <path fill="#EA4335" d="M11.5 6C9.5 6 8 7.5 8 9.5s1.5 3.5 3.5 3.5 3.5-1.5 3.5-3.5S13.5 6 11.5 6zm0 5.2c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8z"/>
+                <path fill="#FBBC05" d="M19.5 6c-2 0-3.5 1.5-3.5 3.5s1.5 3.5 3.5 3.5 3.5-1.5 3.5-3.5S21.5 6 19.5 6zm0 5.2c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8z"/>
+                <path fill="#4285F4" d="M27.5 6c-2 0-3.5 1.5-3.5 3.5s1.5 3.5 3.5 3.5 3.5-1.5 3.5-3.5S29.5 6 27.5 6zm0 5.2c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zm8.5-5.2c-2.3 0-3.8 1.5-3.8 3.5s1.5 3.5 3.8 3.5c1.2 0 2.2-.6 2.7-1.4v1.2c0 1.9-1 3-2.7 3-1.4 0-2.3-1-2.6-1.8l-1.9.8c.5 1.3 1.9 2.8 4.5 2.8 2.6 0 4.8-1.5 4.8-5v-6.3h-2.1v1c-.5-.7-1.5-1.3-2.7-1.3zm-.2 5.2c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8z"/>
+                <path fill="#34A853" d="M41 1v11h2.1V1z"/>
+                <path fill="#EA4335" d="M47.7 8.2c-.8 0-1.6.4-2 1.2l5.6-2.3-.2-.5c-.4-1-1.5-2.6-3.8-2.6-2.2 0-4 1.7-4 4.5s1.8 4.5 4.2 4.5c2 0 3.2-1.2 3.7-2l-1.5-1c-.5.7-1.2 1.2-2.2 1.2-1.1 0-1.9-.5-2.2-1.4l5.9-2.4-.3-.8zM45.8 9.4c0-1.1.9-1.8 1.7-1.8.7 0 1.3.3 1.5.8l-3.2 1z"/>
+                <path fill="#4285F4" d="M3.7 10.3v-2h4c.1.4.1.8.1 1.3 0 1.5-.4 3.1-1.6 4.3S3.7 15 1.8 15C.8 15 0 14 0 12.5S1.3 10 3.7 10zm0 1.8c.8 0 1.4-.6 1.4-1.4s-.6-1.4-1.4-1.4-1.4.6-1.4 1.4.6 1.4 1.4 1.4z"/>
+            </svg>
+        </div>
+        <div class="google-modal-title">Choose an account</div>
+        <div class="google-modal-subtitle">to continue to Titanium Fitness</div>
+        
+        <ul class="google-accounts-list">
+            <li class="google-account-item" onclick="selectGoogleAccount('member_1@gmail.com')">
+                <div class="google-avatar">M</div>
+                <div class="google-account-details">
+                    <div class="google-account-name">Member One</div>
+                    <div class="google-account-email">member_1@gmail.com</div>
+                </div>
+            </li>
+            <li class="google-account-item" onclick="selectGoogleAccount('trainer_1@gmail.com')">
+                <div class="google-avatar" style="background-color: #e6fffa; color: #0d9488;">T</div>
+                <div class="google-account-details">
+                    <div class="google-account-name">Trainer One</div>
+                    <div class="google-account-email">trainer_1@gmail.com</div>
+                </div>
+            </li>
+            <li class="google-account-item" onclick="selectGoogleAccount('eswar_123@gmail.com')">
+                <div class="google-avatar" style="background-color: #fff7ed; color: #ea580c;">A</div>
+                <div class="google-account-details">
+                    <div class="google-account-name">Admin User</div>
+                    <div class="google-account-email">eswar_123@gmail.com</div>
+                </div>
+            </li>
+            <li class="google-account-item" onclick="selectGoogleAccount('recep_1@gmail.com')">
+                <div class="google-avatar" style="background-color: #fdf2f8; color: #db2777;">R</div>
+                <div class="google-account-details">
+                    <div class="google-account-name">Receptionist One</div>
+                    <div class="google-account-email">recep_1@gmail.com</div>
+                </div>
+            </li>
+        </ul>
+        
+        <div class="google-modal-footer">
+            <button type="button" class="google-btn-cancel" onclick="closeGoogleModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleAuthForms(view) {
+    const loginWrapper = document.getElementById('login-form-wrapper');
+    const signupWrapper = document.getElementById('signup-form-wrapper');
+    const welcomeTitle = document.getElementById('welcome-pane-title');
+    const welcomeSub = document.getElementById('welcome-pane-sub');
+
+    if (view === 'signup') {
+        loginWrapper.style.display = 'none';
+        signupWrapper.style.display = 'block';
+        welcomeTitle.textContent = 'Start Your Journey!';
+        welcomeSub.textContent = 'Sign up to create a personalized training plan, connect with expert coaches, and start achieving your fitness goals.';
+    } else {
+        loginWrapper.style.display = 'block';
+        signupWrapper.style.display = 'none';
+        welcomeTitle.textContent = 'Welcome Back!';
+        welcomeSub.textContent = 'Enter your credentials to return to your personalized training dashboard and track your fitness progress.';
+    }
+}
+
+// AJAX form handling for signup
+document.getElementById('signup-ajax-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const alertContainer = document.getElementById('signup-alert-container');
+    alertContainer.innerHTML = ''; // Clear existing alerts
+    
+    const password = document.getElementById('signup-password').value;
+    const confirm = document.getElementById('signup-confirm').value;
+    
+    if (password !== confirm) {
+        alertContainer.innerHTML = '<div class="alert alert-danger">Passwords do not match!</div>';
+        return;
+    }
+    
+    const formData = new FormData(this);
+    
+    fetch('/signup', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = data.redirect;
+        } else {
+            alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+        }
+    })
+    .catch(err => {
+        alertContainer.innerHTML = '<div class="alert alert-danger">An unexpected error occurred. Please try again.</div>';
+    });
+});
+
+// Google Account Select Modal Methods
+function openGoogleModal() {
+    document.getElementById('google-auth-modal').classList.add('show');
+}
+
+function closeGoogleModal() {
+    document.getElementById('google-auth-modal').classList.remove('show');
+}
+
+function selectGoogleAccount(email) {
+    closeGoogleModal();
+    const formData = new FormData();
+    formData.append('email', email);
+    
+    fetch('/login_google', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = data.redirect;
+        } else {
+            alert(data.message || 'Google authentication failed');
+        }
+    })
+    .catch(err => {
+        alert('An unexpected error occurred during Google authentication.');
+    });
+}
+</script>
+{% endblock %}
