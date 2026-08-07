@@ -1,6 +1,6 @@
 import sqlite3
 import os
-from flask import Flask, render_template, flash, redirect, url_for, request, session, logging, g, jsonify
+from flask import Flask, render_template, flash, redirect, url_for, request, session, logging, g, jsonify, send_from_directory
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, RadioField, SelectField, IntegerField
 try:
     from wtforms.fields import DateField
@@ -239,6 +239,22 @@ def login():
 			return render_template('login.html', error = err_msg)
 
 	return render_template('login.html')
+
+@app.route('/admin', defaults={'path': ''})
+@app.route('/admin/<path:path>')
+@app.route('/member', defaults={'path': ''})
+@app.route('/member/<path:path>')
+def serve_titanium_spa(path):
+    dist_dir = os.path.join(app.root_path, 'titanium-admin', 'client', 'dist')
+    if path != "" and os.path.exists(os.path.join(dist_dir, path)):
+        return send_from_directory(dist_dir, path)
+    else:
+        return send_from_directory(dist_dir, 'index.html')
+
+@app.route('/assets/<path:path>')
+def serve_titanium_assets(path):
+    assets_dir = os.path.join(app.root_path, 'titanium-admin', 'client', 'dist', 'assets')
+    return send_from_directory(assets_dir, path)
 
 
 @app.route('/signup', methods = ['POST'])
