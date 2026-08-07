@@ -76,11 +76,11 @@ export default function Layout() {
       {/* Sidebar */}
       <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
         <div className="sidebar-logo">
-          <div className="logo-icon">TF</div>
+          <div className="logo-icon">AG</div>
           {!collapsed && (
             <div>
-              <div className="logo-text">Titanium Fitness</div>
-              <div className="logo-sub">ADMIN PANEL</div>
+              <div className="logo-text">AXIS GYM</div>
+              <div className="logo-sub">ENTERPRISE SYSTEM</div>
             </div>
           )}
         </div>

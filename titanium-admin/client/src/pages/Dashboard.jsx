@@ -87,7 +87,7 @@ export default function Dashboard() {
       <div className="page-header" style={{ marginBottom: '24px' }}>
         <div>
           <h1 className="page-title">Dashboard Overview</h1>
-          <p className="page-sub">Titanium Fitness Management & Operations Control</p>
+          <p className="page-sub">AXIS GYM Management & Operations Control</p>
         </div>
         <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600 }}>
           {new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}

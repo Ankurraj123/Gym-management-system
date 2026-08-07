@@ -60,7 +60,7 @@ function ProtectedRoute({ children, allowedRole }) {
     return (
       <div className="init-screen">
         <div className="neon-spinner-large" />
-        <p>Initializing Titanium Fitness System...</p>
+        <p>Initializing AXIS GYM System...</p>
       </div>
     );
   }
